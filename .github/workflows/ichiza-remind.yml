@@ -1,0 +1,16 @@
+name: ichiza remind
+on:
+  schedule:
+    - cron: "0 0 * * *" # 09:00 JST
+  workflow_dispatch: {}
+permissions:
+  contents: read
+  issues: read
+jobs:
+  remind:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: gr1m0h/ichiza/actions/remind@v0
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}

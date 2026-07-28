@@ -1,0 +1,19 @@
+# ichiza root config — コミュニティ固有の既定値はすべてここで定義する。
+# 実運用例: https://github.com/gr1m0h/ichiza/tree/main/examples/srelounge
+lifecycle: templates/lifecycle.yaml
+events_dir: events
+defaults:
+  mode: onsite # onsite | hybrid | online
+  venue:
+    capacity: 20
+  roles: [organizer]
+  streaming_role: streaming
+  # streaming:
+  #   platform: streamyard # 利用する配信サービスに合わせて
+notifier:
+  type: slack # slack | discord (adapter)
+registry:
+  type: connpass # connpass | doorkeeper | meetup (adapter)
+sns:
+  x:
+    mode: intent # intent(半自動・無料) | api(従量課金・全自動)

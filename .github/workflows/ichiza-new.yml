@@ -1,0 +1,31 @@
+# GitHub UI の「Run workflow」ボタンから新イベントを旗揚げする。
+# スマホの GitHub アプリからも実行可能 = CLI 不要の運営体験。
+name: ichiza new
+on:
+  workflow_dispatch:
+    inputs:
+      slug: { description: "slug (e.g. tokyo-3)", required: true }
+      title: { description: "イベントタイトル", required: true }
+      date: { description: "開催日 YYYY-MM-DD", required: true }
+      mode:
+        description: "開催形態"
+        type: choice
+        options: [onsite, hybrid, online]
+        default: onsite
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+jobs:
+  new:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: gr1m0h/ichiza/actions/new@v0
+        with:
+          slug: ${{ inputs.slug }}
+          title: ${{ inputs.title }}
+          date: ${{ inputs.date }}
+          mode: ${{ inputs.mode }}
+        env:
+          GH_TOKEN: ${{ github.token }}
