@@ -1,5 +1,5 @@
 # ichiza root config — コミュニティ固有の既定値はすべてここで定義する。
-# 実運用例: https://github.com/gr1m0h/ichiza/tree/main/examples/srelounge
+# 実運用例: https://github.com/gr1m0h/ichiza/tree/main/examples/meetup
 lifecycle: templates/lifecycle.yaml
 events_dir: events
 defaults:
