@@ -1,5 +1,5 @@
-# ichiza root config — コミュニティ固有の既定値はすべてここで定義する。
-# 実運用例: https://github.com/gr1m0h/ichiza/tree/main/examples/meetup
+# ichiza root config — all community-specific defaults live here.
+# Full-featured example: https://github.com/gr1m0h/ichiza/tree/main/examples/meetup
 lifecycle: templates/lifecycle.yaml
 events_dir: events
 defaults:
@@ -9,11 +9,11 @@ defaults:
   roles: [organizer]
   streaming_role: streaming
   # streaming:
-  #   platform: streamyard # 利用する配信サービスに合わせて
+  #   platform: streamyard # adjust to your streaming service
 notifier:
   type: slack # slack | discord (adapter)
 registry:
   type: connpass # connpass | doorkeeper | meetup (adapter)
 sns:
   x:
-    mode: intent # intent(半自動・無料) | api(従量課金・全自動)
+    mode: intent # intent (semi-automatic, free) | api (metered, fully automatic)

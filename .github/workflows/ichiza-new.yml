@@ -1,5 +1,5 @@
-# GitHub UI の「Run workflow」ボタンから新イベントを旗揚げする。
-# スマホの GitHub アプリからも実行可能 = CLI 不要の運営体験。
+# Launch a new event from the "Run workflow" button in the GitHub UI.
+# Also runnable from the GitHub mobile app = a no-CLI operations experience.
 name: ichiza new
 on:
   workflow_dispatch:
