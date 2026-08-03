@@ -118,6 +118,9 @@ templates/lifecycle.yaml             # タスク雛形（ライフサイクル�
 events/                              # 旗揚げごとに events/<slug>/ が生成される（event.yaml + tasks.yaml）
 ```
 
+`lifecycle.yaml` だけ `templates/` 配下にあるのは、設定ではなく旗揚げのたびに展開される
+テンプレートで、用途別に複数置けるためです（例: 通常回と LT 大会。`ichiza new --lifecycle` で切替）。
+
 ## トラブルシューティング
 
 - **旗揚げ workflow は成功したのに PR がない** — Actions の実行結果ページ下部の
