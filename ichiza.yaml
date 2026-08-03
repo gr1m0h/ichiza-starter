@@ -7,13 +7,17 @@ defaults:
   venue:
     capacity: 20
   roles: [organizer]
-  streaming_role: streaming
-  # streaming:
+  streaming_role: streaming # appended to roles only when mode is hybrid/online
+  # streaming: # streaming defaults, used only when mode is hybrid/online
   #   platform: streamyard # adjust to your streaming service
+  #   camera: [smartphone]
+  # timetable: # timetable skeleton copied into each new event.yaml
+  #   - { start: "19:00", title: "オープニング" }
+  #   - { start: "19:10", title: "セッション1", speaker: "" }
 notifier:
-  type: slack # slack | discord (adapter)
+  type: slack # notification adapter (currently slack only)
 registry:
-  type: connpass # connpass | doorkeeper | meetup (adapter)
+  type: connpass # event registry adapter (currently connpass only)
 sns:
   x:
-    mode: intent # intent (semi-automatic, free) | api (metered, fully automatic)
+    mode: intent # X announcement mode (currently intent only: one-tap post links)

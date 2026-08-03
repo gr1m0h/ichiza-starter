@@ -45,7 +45,7 @@ $ gh secret set SLACK_WEBHOOK_URL --repo <owner>/<repo>
   - `defaults.mode` — いつもの開催形態（`onsite` / `hybrid` / `online`）
   - `defaults.venue` — 会場の定員・設備・受付方法
   - `defaults.roles` — 運営役割。ワンオペなら `[organizer]` のまま、
-    分担するなら `[mc, reception, timekeeper]` のように
+    分担するなら `[mc, reception, photographer, timekeeper]` のように
   - hybrid/online で開催するなら `defaults.streaming`（配信サービス・機材）
 - **`templates/lifecycle.yaml`** — タスクの雛形。「何日前に何をやるか」を
   `due: -30d` のようなオフセットで定義します。初回はそのままでも動くので、
@@ -53,7 +53,7 @@ $ gh secret set SLACK_WEBHOOK_URL --repo <owner>/<repo>
 
 各パラメータの意味と記法は
 **[設定リファレンス](https://github.com/gr1m0h/ichiza/blob/main/docs/configuration.md)** を、
-フル構成の実例（ハイブリッド配信・5役体制・チェックリスト付き Issue）は
+フル構成の実例（ハイブリッド配信・6役体制・チェックリスト付き Issue）は
 [examples/meetup](https://github.com/gr1m0h/ichiza/tree/main/examples/meetup) を参照してください。
 
 > どちらも既定値のままで動作はします。ただし `ichiza.yaml` の既定値は
@@ -115,7 +115,7 @@ Slack に通知します。announce ラベルのタスクには X（Twitter）�
 .github/ISSUE_TEMPLATE/speaker.yml   # 登壇者情報 Issue Form
 ichiza.yaml                          # コミュニティの既定値
 templates/lifecycle.yaml             # タスク雛形（ライフサイクル定義）
-events/<slug>/                       # 旗揚げごとに生成される（event.yaml + tasks.yaml）
+events/                              # 旗揚げごとに events/<slug>/ が生成される（event.yaml + tasks.yaml）
 ```
 
 ## トラブルシューティング
