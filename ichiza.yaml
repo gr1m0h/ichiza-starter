@@ -18,6 +18,9 @@ notifier:
   type: slack # notification adapter (currently slack only)
 registry:
   type: connpass # event registry adapter (currently connpass only)
+  templates: # page draft templates — edit these to your community's voice
+    page: templates/registry/page.md
+    # speaker: templates/registry/speaker.md # per-speaker section (omit = built-in default)
 sns:
   x:
     mode: intent # X announcement mode (currently intent only: one-tap post links)

@@ -1,7 +1,7 @@
 # ichiza-starter
 
 [ichiza](https://github.com/gr1m0h/ichiza) を導入するコミュニティ運営リポジトリのテンプレート。
-workflows / Issue Form / `ichiza.yaml` が配線済みで、この README の手順だけで
+workflows / `ichiza.yaml` / 原稿テンプレが配線済みで、この README の手順だけで
 イベント運営を始められます。旗揚げから当日までスマホの GitHub アプリだけでも回せます。
 
 ## 必要なもの
@@ -72,6 +72,9 @@ $ gh secret set SLACK_WEBHOOK_URL --repo <owner>/<repo>
 3. 1〜2 分で生成されるもの:
    - **PR** — `events/<slug>/event.yaml`（イベント定義の雛形）+ `tasks.yaml`（期限つきタスク）
    - **GitHub Issues** — 開催日から逆算した期限入りタスク一式 + マイルストーン
+   - **募集ページ原稿** — workflow 実行結果ページ下部の summary に、connpass に
+     そのまま貼れる原稿が出ます（connpass の「コピーして新規作成」→ 本文にペースト。
+     文面は `templates/registry/page.md` で自由にカスタマイズ可能）
 4. event.yaml に会場名・タイムテーブルなどを追記して **PR をマージ**
 
 あとは Issues を上から消化していくだけです。運営で気づいたことも同じリポジトリの
@@ -88,19 +91,27 @@ Slack に通知します。announce ラベルのタスクには X（Twitter）�
 手動で試すには: Actions タブ → **ichiza remind** → Run workflow。
 （リマインド対象があるのに `SLACK_WEBHOOK_URL` 未設定だと workflow が失敗します）
 
-### 登壇者情報の収集
+### 登壇者の追加と募集ページの更新
 
-1. 登壇者に Issue Form のリンクを送る:
-   `https://github.com/<owner>/<repo>/issues/new?template=speaker.yml`
-2. 記入された Issue（label: `speakers`）から connpass 掲載文を生成:
+1. DM 等で受け取った登壇者情報を `events/<slug>/event.yaml` の `speakers:` に追記します
+   （GitHub の Web エディタからで OK）:
 
-   ```console
-   $ go install github.com/gr1m0h/ichiza@latest    # 初回のみ
-   $ ichiza speakers                           # 掲載文を標準出力へ
-   $ ichiza speakers --apply --slug tokyo-1    # event.yaml にも反映
+   ```yaml
+   speakers:
+     - handle: alice
+       sns: https://x.com/alice
+       bio: SRE。〇〇社で△△をやっています。
+       session_title: SLO入門
+       remote: false
    ```
 
-   ※ ここだけ現状ローカルで CLI（Go + gh CLI）が必要です
+2. **Actions タブ → ichiza registry → Run workflow**（slug を入力）で
+   募集ページ原稿の全文が summary に出ます。公開済みの connpass ページの
+   本文に**まるごと貼り直して**ください（差分追記より簡単で崩れません）
+
+タイムテーブルや会場の変更も同じ流れです — event.yaml を直して再生成するだけ。
+文面は `templates/registry/page.md` でカスタマイズできます（登壇者 1 名分の形式も
+変えたい場合は speaker テンプレートを追加 — [設定リファレンス](https://github.com/gr1m0h/ichiza/blob/main/docs/configuration.md)）。
 
 ### 振り返りを次回に効かせる
 
@@ -110,16 +121,18 @@ Slack に通知します。announce ラベルのタスクには X（Twitter）�
 ## ファイル構成
 
 ```text
-.github/workflows/ichiza-new.yml     # 旗揚げ（Run workflow ボタン）
-.github/workflows/ichiza-remind.yml  # 毎朝 09:00 JST の期限チェック（cron）
-.github/ISSUE_TEMPLATE/speaker.yml   # 登壇者情報 Issue Form
-ichiza.yaml                          # コミュニティの既定値
-templates/lifecycle.yaml             # タスク雛形（ライフサイクル定義）
-events/                              # 旗揚げごとに events/<slug>/ が生成される（event.yaml + tasks.yaml）
+.github/workflows/ichiza-new.yml      # 旗揚げ（Run workflow ボタン）
+.github/workflows/ichiza-remind.yml   # 毎朝 09:00 JST の期限チェック（cron）
+.github/workflows/ichiza-registry.yml # 募集ページ原稿の再生成（Run workflow ボタン）
+ichiza.yaml                           # コミュニティの既定値
+templates/lifecycle.yaml              # タスク雛形（ライフサイクル定義）
+templates/registry/                   # 募集ページ原稿の文面テンプレ（page.md）
+events/                               # 旗揚げごとに events/<slug>/ が生成される（event.yaml + tasks.yaml）
 ```
 
-`lifecycle.yaml` だけ `templates/` 配下にあるのは、設定ではなく旗揚げのたびに展開される
-テンプレートで、用途別に複数置けるためです（例: 通常回と LT 大会。`ichiza new --lifecycle` で切替）。
+`templates/` 配下は設定ではなく生成のたびに展開される**テンプレート**です。
+`lifecycle.yaml` は用途別に複数置けます（例: 通常回と LT 大会。`ichiza new --lifecycle` で
+切替）。`registry/` はコミュニティの文面そのものなので、自由に書き換えてください。
 
 ## トラブルシューティング
 

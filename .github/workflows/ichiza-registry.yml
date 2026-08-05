@@ -1,0 +1,18 @@
+# Re-render the registration page draft (connpass 等) to the job summary.
+# Run after updating event.yaml (e.g. adding a speaker), then paste the
+# full draft over the published page body.
+name: ichiza registry
+on:
+  workflow_dispatch:
+    inputs:
+      slug: { description: "slug（例: tokyo-1）", required: true }
+permissions:
+  contents: read
+jobs:
+  draft:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: gr1m0h/ichiza/actions/registry@v0
+        with:
+          slug: ${{ inputs.slug }}
