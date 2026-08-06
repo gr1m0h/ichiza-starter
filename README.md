@@ -71,11 +71,12 @@ $ gh secret set SLACK_WEBHOOK_URL --repo <owner>/<repo>
 ### タスク管理（GitHub Issues）
 
 1 タスク = 1 Issue（期限入りタイトル、イベントごとのマイルストーン）。
-終わったタスクは Issue を閉じてください。
+終わったタスクは Issue を閉じるだけで、翌朝のリマインドから外れます
+（リマインドが closed Issue を done とみなして照合します。ただし Issue の
+タイトルを変更すると照合できません）。
 
-リマインドの判定元は Issue ではなく `events/<slug>/tasks.yaml` です。Issue を閉じても
-自動では同期されないため、リマインドを止めるには該当タスクを `done: true` にして
-コミットしてください（GitHub の Web エディタからで OK）。
+Issue を作っていないタスクは、`events/<slug>/tasks.yaml` の該当タスクを
+`done: true` にしてコミットすると同じ扱いになります。
 
 ### 期限リマインド（自動）
 
