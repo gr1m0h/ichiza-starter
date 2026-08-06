@@ -8,6 +8,9 @@ permissions:
   issues: read
 jobs:
   remind:
+    # Skip the daily cron on the template repo itself (manual runs still work).
+    # Repos created from the template have a different name, so this passes there.
+    if: github.event_name == 'workflow_dispatch' || github.repository != 'gr1m0h/ichiza-starter'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
