@@ -1,0 +1,32 @@
+name: ichiza watch
+on:
+  schedule:
+    - cron: "0 0 * * *" # 09:00 JST
+  workflow_dispatch: {}
+permissions:
+  contents: read
+jobs:
+  watch:
+    # Skip the daily cron on the template repo itself (manual runs still work).
+    # Repos created from the template have a different name, so this passes there.
+    if: github.event_name == 'workflow_dispatch' || github.repository != 'gr1m0h/ichiza-starter'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # The connpass API key is opt-in (issued on request by connpass support),
+      # so a missing secret skips the run instead of failing every morning.
+      - name: Check CONNPASS_API_KEY
+        id: key
+        env:
+          CONNPASS_API_KEY: ${{ secrets.CONNPASS_API_KEY }}
+        run: |
+          if [ -n "$CONNPASS_API_KEY" ]; then
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "::notice::CONNPASS_API_KEY secret is not set — skipping watch"
+          fi
+      - uses: gr1m0h/ichiza/actions/watch@v0
+        if: steps.key.outputs.present == 'true'
+        env:
+          CONNPASS_API_KEY: ${{ secrets.CONNPASS_API_KEY }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}

@@ -10,6 +10,9 @@ workflows / `ichiza.yaml` / 原稿テンプレが配線済みで、この README
 - Slack の Incoming Webhook URL — 期限リマインドの通知先
   （[作り方](https://api.slack.com/messaging/webhooks)。後から設定しても OK）
 - （任意）`gh` CLI — ブラウザだけでもすべて設定できます
+- （任意）connpass API キー — 申込数ウォッチを使う場合のみ。
+  [利用申請](https://help.connpass.com/api/)で発行されます（コミュニティ・個人は無償、審査あり）。
+  未設定でもウォッチ以外の機能はすべて動きます
 
 ## セットアップ
 
@@ -91,6 +94,16 @@ Slack に通知します。announce ラベルのタスクには X（Twitter）�
 手動で試すには: Actions タブ → **ichiza remind** → Run workflow。
 （リマインド対象があるのに `SLACK_WEBHOOK_URL` 未設定だと workflow が失敗します）
 
+### 申込数ウォッチ（自動・要 connpass API キー）
+
+`CONNPASS_API_KEY` secret を設定すると、`ichiza watch` workflow が毎朝 09:00 JST に
+開催前イベントの申込数 / 定員充足率 / 補欠 / 受付状態を Slack に通知します。
+対象は `events/<slug>/event.yaml` の `connpass_url` が設定済みのイベントです
+（募集ページ公開後に URL を追記してください — 未設定のイベントは通知内で ⚠️ 表示）。
+
+secret 未設定の間は毎朝の実行が自動でスキップされるので、後から鍵が届いたら
+設定するだけで有効になります。
+
 ### 登壇者の追加と募集ページの更新
 
 1. DM 等で受け取った登壇者情報を `events/<slug>/event.yaml` の `speakers:` に追記します
@@ -124,6 +137,7 @@ Slack に通知します。announce ラベルのタスクには X（Twitter）�
 .github/workflows/ichiza-new.yml      # 旗揚げ（Run workflow ボタン）
 .github/workflows/ichiza-remind.yml   # 毎朝 09:00 JST の期限チェック（cron）
 .github/workflows/ichiza-registry.yml # 募集ページ原稿の再生成（Run workflow ボタン）
+.github/workflows/ichiza-watch.yml    # 毎朝 09:00 JST の申込数ウォッチ（cron・要 CONNPASS_API_KEY）
 ichiza.yaml                           # コミュニティの既定値
 templates/lifecycle.yaml              # タスク雛形（ライフサイクル定義）
 templates/registry/                   # 募集ページ原稿の文面テンプレ（page.md）
@@ -140,4 +154,6 @@ events/                               # 旗揚げごとに events/<slug>/ が生
   summary に PR 作成リンクが出ています。恒久対応はセットアップ手順 2 の権限設定
 - **リマインドが来ない** — `SLACK_WEBHOOK_URL` secret の設定を確認。
   期限超過 + 7 日以内のタスクがゼロの日は通知自体がありません
+- **申込数の通知が来ない** — `CONNPASS_API_KEY` secret の設定と、対象イベントの
+  event.yaml に `connpass_url` が入っているかを確認（どちらも watch の実行ログに出ます）
 - **`invalid slug`** — slug は小文字英数字とハイフンのみ（例: `tokyo-1`）
