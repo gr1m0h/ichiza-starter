@@ -14,6 +14,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Check SLACK_WEBHOOK_URL
+        id: slack
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          if [ -n "$SLACK_WEBHOOK_URL" ]; then
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "::notice::SLACK_WEBHOOK_URL secret is not set — skipping remind"
+          fi
       - uses: gr1m0h/ichiza/actions/remind@v0
+        if: steps.slack.outputs.present == 'true'
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}

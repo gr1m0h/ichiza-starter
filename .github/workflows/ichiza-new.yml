@@ -27,5 +27,6 @@ jobs:
           title: ${{ inputs.title }}
           date: ${{ inputs.date }}
           mode: ${{ inputs.mode }}
+          create-dashboard: "true"
         env:
           GH_TOKEN: ${{ github.token }}
