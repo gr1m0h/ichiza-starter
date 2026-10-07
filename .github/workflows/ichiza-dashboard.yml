@@ -1,0 +1,39 @@
+name: ichiza dashboard
+on:
+  issues:
+    types: [edited]
+  push:
+    branches: [main]
+    paths:
+      - "events/**/event.yaml"
+      - "events/**/tasks.yaml"
+concurrency:
+  group: ichiza-dashboard-${{ github.repository }}
+  cancel-in-progress: false
+permissions:
+  contents: read
+  issues: write
+jobs:
+  reconcile:
+    if: github.event_name == 'issues' && contains(github.event.issue.body, '<!-- ichiza-dashboard:v1')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: gr1m0h/ichiza/actions/dashboard@v0
+        with:
+          issue-number: ${{ github.event.issue.number }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+  sync:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: gr1m0h/ichiza/actions/setup@v0
+      - name: Sync event definitions to Dashboard Issues
+        run: |
+          find events -mindepth 1 -maxdepth 1 -type d -print0 | sort -z |
+            while IFS= read -r -d '' event_dir; do
+              ichiza dashboard sync --slug "${event_dir##*/}"
+            done
+        env:
+          GH_TOKEN: ${{ github.token }}

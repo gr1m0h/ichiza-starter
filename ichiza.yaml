@@ -2,6 +2,14 @@
 # Full-featured example: https://github.com/gr1m0h/ichiza/tree/main/examples/meetup
 lifecycle: templates/lifecycle.yaml
 events_dir: events
+timezone: Asia/Tokyo
+# Webの許可判定とSlackメンションに使う運営者一覧。
+# Cloudflare Access側でも同じemailを許可してください。
+members: []
+# members:
+#   - github: your-github-login
+#     email: you@example.com
+#     slack_user_id: U0123456789
 defaults:
   mode: onsite # onsite | hybrid | online
   venue:
@@ -20,6 +28,3 @@ registry:
   type: connpass # event registry adapter (currently connpass only)
   templates: # page draft templates — edit these to your community's voice
     page: templates/registry/page.md
-sns:
-  x:
-    mode: intent # X announcement mode (currently intent only: one-tap post links)

@@ -1,0 +1,28 @@
+name: ichiza web deploy
+on:
+  workflow_dispatch: {}
+permissions:
+  contents: read
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: gr1m0h/ichiza/actions/setup@v0
+      - name: Build allowed operator list
+        id: config
+        run: |
+          config=$(ichiza web-config)
+          echo "members=$(jq -c .members <<<"$config")" >> "$GITHUB_OUTPUT"
+          echo "timezone=$(jq -r .timezone <<<"$config")" >> "$GITHUB_OUTPUT"
+      - uses: gr1m0h/ichiza/actions/web-deploy@v0
+        with:
+          worker-name: ${{ vars.ICHIZA_WORKER_NAME }}
+          members: ${{ steps.config.outputs.members }}
+          timezone: ${{ steps.config.outputs.timezone }}
+          access-team-domain: ${{ vars.CF_ACCESS_TEAM_DOMAIN }}
+          access-aud: ${{ vars.CF_ACCESS_AUD }}
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+          ICHIZA_GITHUB_TOKEN: ${{ secrets.ICHIZA_GITHUB_TOKEN }}
