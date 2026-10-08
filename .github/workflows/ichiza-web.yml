@@ -8,14 +8,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - uses: gr1m0h/ichiza/actions/setup@v0
+      - uses: gr1m0h/ichiza/actions/setup@v0.2.1
       - name: Build allowed operator list
         id: config
         run: |
           config=$(ichiza web-config)
           echo "members=$(jq -c .members <<<"$config")" >> "$GITHUB_OUTPUT"
           echo "timezone=$(jq -r .timezone <<<"$config")" >> "$GITHUB_OUTPUT"
-      - uses: gr1m0h/ichiza/actions/web-deploy@v0
+      - uses: gr1m0h/ichiza/actions/web-deploy@v0.2.1
         with:
           worker-name: ${{ vars.ICHIZA_WORKER_NAME }}
           members: ${{ steps.config.outputs.members }}
