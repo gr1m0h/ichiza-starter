@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: gr1m0h/ichiza/actions/new@v0.2.0
+      - uses: gr1m0h/ichiza/actions/new@v0.2.1
         with:
           slug: ${{ inputs.slug }}
           title: ${{ inputs.title }}
