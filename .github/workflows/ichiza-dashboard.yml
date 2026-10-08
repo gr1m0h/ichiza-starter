@@ -18,7 +18,7 @@ jobs:
     if: github.event_name == 'issues' && contains(github.event.issue.body, '<!-- ichiza-dashboard:v1')
     runs-on: ubuntu-latest
     steps:
-      - uses: gr1m0h/ichiza/actions/dashboard@v0.3.0
+      - uses: gr1m0h/ichiza/actions/dashboard@v0.4.0
         with:
           issue-number: ${{ github.event.issue.number }}
         env:
@@ -28,7 +28,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - uses: gr1m0h/ichiza/actions/setup@v0.3.0
+      - uses: gr1m0h/ichiza/actions/setup@v0.4.0
       - name: Sync event definitions to Dashboard Issues
         run: |
           find events -mindepth 1 -maxdepth 1 -type d -print0 | sort -z |
