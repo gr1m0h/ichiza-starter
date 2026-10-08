@@ -25,7 +25,7 @@ jobs:
           else
             echo "::notice::CONNPASS_API_KEY secret is not set — skipping watch"
           fi
-      - uses: gr1m0h/ichiza/actions/watch@v0.2.2
+      - uses: gr1m0h/ichiza/actions/watch@v0.2.3
         if: steps.key.outputs.present == 'true'
         env:
           CONNPASS_API_KEY: ${{ secrets.CONNPASS_API_KEY }}
