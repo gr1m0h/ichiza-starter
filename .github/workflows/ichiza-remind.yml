@@ -13,7 +13,7 @@ jobs:
     if: github.event_name == 'workflow_dispatch' || github.repository != 'gr1m0h/ichiza-starter'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Check SLACK_WEBHOOK_URL
         id: slack
         env:

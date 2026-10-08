@@ -7,7 +7,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: gr1m0h/ichiza/actions/setup@v0
       - name: Build allowed operator list
         id: config

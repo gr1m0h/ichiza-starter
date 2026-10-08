@@ -12,7 +12,7 @@ jobs:
     if: github.event_name == 'workflow_dispatch' || github.repository != 'gr1m0h/ichiza-starter'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       # The connpass API key is opt-in (issued on request by connpass support),
       # so a missing secret skips the run instead of failing every morning.
       - name: Check CONNPASS_API_KEY
