@@ -75,7 +75,7 @@ members:
 
 `events/<slug>/event.yaml` と `tasks.yaml` が定義の正本、Dashboard Issue が日々の操作面です。
 PR を main へマージすると `ichiza dashboard sync` が task ID をキーに定義を再反映します。
-完了済みチェック・Webから変更した現在担当者・担当解除・Notes は保持され、追加タスクは未完了として加わります。
+完了状態・Web で保存した担当者や通知設定・Notes は保持され、追加タスクは未完了として加わります。
 
 ## 日々の運用
 
@@ -89,16 +89,15 @@ PR を main へマージすると `ichiza dashboard sync` が task ID をキー�
 - 全タスクが完了すると `ichiza dashboard` が Issue を自動で閉じる
 - 完了済みタスクを未完了へ戻すと Issue も再度開く
 - タイトル・期限・ラベル・管理用 HTML comment は直接編集せず、`event.yaml` / `tasks.yaml` をPRで変更する
-- 作成後の現在担当者はDashboard Issueの実行状態。Webのイベント詳細またはMy Pageから `ichiza.yaml` のメンバーを選択する
+- Web のイベント詳細と My Page で、タスクごとに複数の担当者を選べます。「このタスクを保存」はその行だけを反映します。他の行の入力は残り、一覧下部の「すべての変更を保存」でまとめて反映できます。
 
 GitHub Projects を使う場合は、Dashboard Issue を「イベント 1 件」のカードとして置けます。
 細かなタスクはカードを増やさず、Issue 内のチェックボックスで扱います。
 
 ### 期限リマインド
 
-毎朝 09:00 JST に、期限超過または 7 日以内の未完了タスクを Slack へ通知します。
-完了判定と現在担当者は Dashboard Issue から読み取り、`ichiza.yaml` の
-`slack_user_id` がある担当者にはメンションします。`SLACK_WEBHOOK_URL` が未設定なら
+毎朝 09:00 JST に、既定では期限超過または 7 日以内の未完了タスクを Slack へ通知します。Web の「Slack 通知」で、タスクごとに指定日だけ通知するか、通知を停止することもできます。
+通常は担当者名だけを表示します。「担当者をメンションする」を有効にしたタスクでは、`ichiza.yaml` に `slack_user_id` がある担当者にメンションします。`SLACK_WEBHOOK_URL` が未設定なら
 workflow は安全にスキップします。手動実行は **Actions → ichiza remind** です。
 
 ### 申込数ウォッチ（任意）
