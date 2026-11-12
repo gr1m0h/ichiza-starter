@@ -24,9 +24,9 @@ jobs:
           else
             echo "::notice::SLACK_WEBHOOK_URL secret is not set — skipping remind"
           fi
-      - uses: gr1m0h/ichiza/actions/remind@v0.5.2
+      - uses: gr1m0h/ichiza/actions/remind@v0.5.3
         with:
-          version: v0.5.2
+          version: v0.5.3
         if: steps.slack.outputs.present == 'true'
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
