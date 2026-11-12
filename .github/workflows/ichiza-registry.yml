@@ -13,6 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - uses: gr1m0h/ichiza/actions/registry@v0.5.1
+      - uses: gr1m0h/ichiza/actions/registry@v0.5.2
         with:
+          version: v0.5.2
           slug: ${{ inputs.slug }}
