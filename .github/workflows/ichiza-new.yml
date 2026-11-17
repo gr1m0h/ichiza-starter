@@ -12,6 +12,9 @@ on:
         type: choice
         options: [onsite, hybrid, online]
         default: onsite
+concurrency:
+  group: ichiza-dashboard-${{ github.repository }}
+  cancel-in-progress: false
 permissions:
   contents: write
   issues: write
@@ -21,9 +24,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - uses: gr1m0h/ichiza/actions/new@v0.5.3
+      - uses: gr1m0h/ichiza/actions/new@v0.5.4
         with:
-          version: v0.5.3
+          version: v0.5.4
           slug: ${{ inputs.slug }}
           title: ${{ inputs.title }}
           date: ${{ inputs.date }}
